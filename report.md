@@ -24,8 +24,8 @@ The following hyperparameters are used:
 * number of updates: UPDATES_IN_A_ROW = 10
 
 ### Training Results
-(Update needed) The trained agent solved the environment in 129 episodes. The following plot shows the rewards per episode:
-![reward plot](https://github.com/Heatequation/DRL_Project_Navigation/blob/master/reward_episodes.png)
+The trained agent solved the environment in 129 episodes. The following plot shows the average score per episode:
+![average score plot](avg_score_plot.png)
 
 
 ### Ideas for Future Work
