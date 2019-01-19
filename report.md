@@ -2,28 +2,31 @@
 
 ### Learning Algorithm
 The agent learns through the Deep Deterministic Policy Gradients (DDPG) algorithm. It is amended to allow for distributed gathering of experience. The implementation of the DDPG algorithm is based on the research paper [
-Continuous control with deep reinforcement learning](https://arxiv.org/abs/1509.02971): 
+Continuous control with deep reinforcement learning](https://arxiv.org/abs/1509.02971). 
+
+DDPG can be seen as an actor critic method and as an extension of the DQN algorithm for continuous action spaces. The actor learns to output a deterministic policy (the optimal action given a state) and the critic is a maximizer approximator. 
   
-The model architecture is a deep neural network with one hidden layer. Input and hidden layer use ReLu activation.  
+The model architecture for the actor and for the critic is to use a local and a target nerual network for each. The exploration aspect is modeled by applying decaying Ornstein-Uhlenbek noise to the chosen action. The distributed learning is achieved the following way: 1) by letting all 20 copies of the arm collect experience, 2) by using the experience every 20 episodes to update the model 10 times in a row.
   
 The following hyperparameters are used:
-* replay buffer size: BUFFER_SIZE = int(1e5)
-* minibatch size: BATCH_SIZE = 64
+* replay buffer size: BUFFER_SIZE = int(1e6)
+* minibatch size: BATCH_SIZE = 256
 * discount factor: GAMMA = 0.99
-* soft update of target parameters: TAU = 1e-3
-* learning rate: LR = 1e-4
-* how often to update the network: UPDATE_EVERY = 4
+* soft update factor TAU = 1e-3
+* learning rate actor: LR_ACTOR = 1e-3
+* learning rate critic: LR_CRITIC = 1e-3
+* L2 weight decay: WEIGHT_DECAY = 0
+* initial scale of noise: EPSILON = 1
+* linear noise decay: EPSILON_DECAY = 1e-6
+* update interval: UPDATE_INTERVAL = 20 
+* number of updates: UPDATES_IN_A_ROW = 10
 
 ### Training Results
-(Update) The trained agent solved the environment in 129 episodes. The following plot shows the rewards per episode:
+(Update needed) The trained agent solved the environment in 129 episodes. The following plot shows the rewards per episode:
 ![reward plot](https://github.com/Heatequation/DRL_Project_Navigation/blob/master/reward_episodes.png)
 
 
 ### Ideas for Future Work
-More advanced techniques could be employed. For example:
-* Trying a different fundamental algorithm like (PPO, ...)
-* Trying a different fundamental algorithm like (PPO, ...)
-* Trying a different fundamental algorithm like (PPO, ...)
-* Improving the DDPG implementation: Parameter Noise instead of Action Noise (Open AI Gym's article)
-* Improving the DDPG implementation: Parameter Noise instead of Action Noise (Open AI Gym's article)
-* Improving the DDPG implementation: Parameter Noise instead of Action Noise (Open AI Gym's article)
+* A different technique than DDPG could be explored. Various tachniques are benchmarked in [this paper](https://arxiv.org/abs/1604.06778)
+* Improving the DDPG implementation: Using parameter noise instead of action noise. Advantages of the former are described in this [blog post by OpenAI](https://blog.openai.com/better-exploration-with-parameter-noise/)
+* Improving the DDPG implementation: using [prioritized experience replay](https://arxiv.org/abs/1511.05952)
