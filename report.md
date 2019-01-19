@@ -6,9 +6,11 @@ Continuous control with deep reinforcement learning](https://arxiv.org/abs/1509.
 
 DDPG can be seen as an actor critic method and as an extension of the DQN algorithm for continuous action spaces. The actor learns to output a deterministic policy (the optimal action given a state) and the critic is a maximizer approximator. 
   
-The model architecture for the actor and for the critic is to use a local and a target nerual network for each. The exploration aspect is modeled by applying decaying Ornstein-Uhlenbek noise to the chosen action. The distributed learning is achieved the following way: 1) by letting all 20 copies of the arm collect experience, 2) by using the experience every 20 episodes to update the model 10 times in a row.
+The model architecture for the actor and for the critic is to use a local and a target nerual network for each. Each network has two hidden layers. All layers are fully connected, using ReLu activation for the hidden layers, and tanh activation for the actor's output layer as well as linear activation for the critic's output layer. The exploration aspect is modeled by applying decaying Ornstein-Uhlenbek noise to the chosen action. The distributed learning is achieved the following way: 1) by letting all 20 copies of the arm collect experience, 2) by using the experience every 20 episodes to update the model 10 times in a row.
   
 The following hyperparameters are used:
+* size of first hidden layer (actor and critic): 400
+* size of second hidden layer (actor and critic): 300
 * replay buffer size: BUFFER_SIZE = int(1e6)
 * minibatch size: BATCH_SIZE = 256
 * discount factor: GAMMA = 0.99
